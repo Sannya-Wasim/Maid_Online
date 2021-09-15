@@ -1,0 +1,133 @@
+/*using System.Windows.Forms;
+using System.Data.OleDb;
+
+namespace MASSI_Online
+{
+    public partial class Trans : Form
+    {
+        public Trans()
+        {
+            InitializeComponent();
+        }
+
+        public static bool form_upd = false;
+        public static bool form_del = false;
+        public static bool form_disp = false;
+        private void Trans_Load(object sender, EventArgs e)
+        {
+            if (form_upd == true)
+            {
+                OleDbConnection conn = new OleDbConnection(@"Provider=Microsoft.Ace.Oledb.12.0; Data Source=C:\Users\Wasim Yasin\Documents\Database5.accdb");
+                //OleDbDataAdapter adap = new OleDbDataAdapter("SELECT [Cname], [From_date], [Package], [Helper] from Trans where [orderID]=" + Reg_Clean.order+" ", conn);
+                OleDbDataAdapter adap1 = new OleDbDataAdapter("SELECT [Cname],[Address], [From_date], [To_date], [Package], [Helper], [Price], [Status] from Trans where [orderID]=" + Update_order.order_upd + " ", conn);
+                //for entering a numeric (int) value in a query statement, dont use single quotes ('"++"'), instead use only double quotes ("++")
+                DataSet d1 = new DataSet("Trans");
+                conn.Open();
+                adap1.Fill(d1);
+                if (d1.Tables.Count > 0)
+                {
+                    name_txt.Text = d1.Tables[0].Rows[0]["Cname"].ToString();
+                    add_txt.Text = d1.Tables[0].Rows[0]["Address"].ToString();
+                    pckg_cmb.Text = d1.Tables[0].Rows[0]["Package"].ToString();
+                    from_date_picker.Value = Convert.ToDateTime(d1.Tables[0].Rows[0]["From_date"]);
+                    to_date_picker.Value = Convert.ToDateTime(d1.Tables[0].Rows[0]["To_date"]);
+                    help_cmb.Text = d1.Tables[0].Rows[0]["Helper"].ToString();
+                    sts_txt.Text = d1.Tables[0].Rows[0]["Status"].ToString();
+                    price_txt.Text = d1.Tables[0].Rows[0]["Price"].ToString();
+                    conn.Close();
+                }
+            }
+            else if (form_del == true)
+            {
+                OleDbConnection conn = new OleDbConnection(@"Provider=Microsoft.Ace.Oledb.12.0; Data Source=C:\Users\Wasim Yasin\Documents\Database5.accdb");
+                //OleDbDataAdapter adap = new OleDbDataAdapter("SELECT [Cname], [From_date], [Package], [Helper] from Trans where [orderID]=" + Reg_Clean.order+" ", conn);
+                OleDbDataAdapter adap2 = new OleDbDataAdapter("SELECT [Cname],[Address], [From_date], [To_date], [Package], [Helper], [Price], [Status] from Trans where [orderID]=" + Delete_order.order_del + " ", conn);
+                //for entering a numeric (int) value in a query statement, dont use single quotes ('"++"'), instead use only double quotes ("++")
+                DataSet d2 = new DataSet("Trans");
+                conn.Open();
+                adap2.Fill(d2);
+                if (d2.Tables.Count > 0)
+                {
+                    name_txt.Text = d2.Tables[0].Rows[0]["Cname"].ToString();
+                    add_txt.Text = d2.Tables[0].Rows[0]["Address"].ToString();
+                    pckg_cmb.Text = d2.Tables[0].Rows[0]["Package"].ToString();
+                    from_date_picker.Value = Convert.ToDateTime(d2.Tables[0].Rows[0]["From_date"]);
+                    to_date_picker.Value = Convert.ToDateTime(d2.Tables[0].Rows[0]["To_date"]);
+                    help_cmb.Text = d2.Tables[0].Rows[0]["Helper"].ToString();
+                    sts_txt.Text = d2.Tables[0].Rows[0]["Status"].ToString();
+                    price_txt.Text= d2.Tables[0].Rows[0]["Price"].ToString();
+                    conn.Close();
+                }
+            }
+            else
+            {
+                OleDbConnection conn = new OleDbConnection(@"Provider=Microsoft.Ace.Oledb.12.0; Data Source=C:\Users\Wasim Yasin\Documents\Database5.accdb");
+                //OleDbDataAdapter adap = new OleDbDataAdapter("SELECT [Cname], [From_date], [Package], [Helper] from Trans where [orderID]=" + Reg_Clean.order+" ", conn);
+                OleDbDataAdapter adap3 = new OleDbDataAdapter("SELECT [Cname],[Address], [From_date], [To_date], [Package], [Helper], [Price], [Status] from Trans where [orderID]=" + Display_order.order_disp + " ", conn);
+                //for entering a numeric (int) value in a query statement, dont use single quotes ('"++"'), instead use only double quotes ("++")
+                DataSet d3 = new DataSet("Trans");
+                conn.Open();
+                adap3.Fill(d3);
+                if (d3.Tables.Count > 0)
+                {
+                    name_txt.Text = d3.Tables[0].Rows[0]["Cname"].ToString();
+                    add_txt.Text = d3.Tables[0].Rows[0]["Address"].ToString();
+                    pckg_cmb.Text = d3.Tables[0].Rows[0]["Package"].ToString();
+                    from_date_picker.Value = Convert.ToDateTime(d3.Tables[0].Rows[0]["From_date"]);
+                    to_date_picker.Value = Convert.ToDateTime(d3.Tables[0].Rows[0]["To_date"]);
+                    help_cmb.Text = d3.Tables[0].Rows[0]["Helper"].ToString();
+                    sts_txt.Text = d3.Tables[0].Rows[0]["Status"].ToString();
+                    price_txt.Text= d3.Tables[0].Rows[0]["Price"].ToString();
+                    conn.Close();
+                }
+
+            }
+
+
+
+            //System.Data.OleDb.OleDbException: 'No value given for one or more required parameters.' => occurs when the name of the column
+            // provided is incorrect(does not match the onein the database)
+        }
+
+            private void update_btn_Click(object sender, EventArgs e)       // update button
+            {
+                OleDbConnection conn = new OleDbConnection(@"Provider=Microsoft.Ace.Oledb.12.0; Data Source=C:\Users\Wasim Yasin\Documents\Database5.accdb");
+                string query = "Update Trans set [Cname]='" + name_txt.Text + "', [Address]='" + add_txt.Text + "', [Package]='" + pckg_cmb.Text + "', " +
+                    "[From_date]='" + Convert.ToDateTime(from_date_picker.Text) + "', [To_date]='" + Convert.ToDateTime(to_date_picker.Text) + "', " +
+                    "[Helper]='" + help_cmb.SelectedItem + "', [Status]='" + sts_txt.Text + "', [Price]="+Convert.ToInt32(price_txt.Text)+" where [orderID]=" + Update_order.order_upd + " ";
+                OleDbCommand cmd = new OleDbCommand(query, conn);
+                conn.Open();
+                cmd.ExecuteNonQuery();
+                conn.Close();
+                MessageBox.Show("Your record has been updated!", "Update");
+
+            }
+
+            private void exit_btn_Click(object sender, EventArgs e)
+            {
+                this.Close();
+            }
+
+            private void delete_btn_Click(object sender, EventArgs e)   //delete button
+            {
+                OleDbConnection conn = new OleDbConnection(@"Provider=Microsoft.Ace.Oledb.12.0; Data Source=C:\Users\Wasim Yasin\Documents\Database5.accdb");
+                string query1 = "Insert into Removed ([orderID], [Cname], [Address], [From_date], [To_date], [Package], [Helper], [Price]) " +
+                    "values (" + Delete_order.order_del + ", '" + name_txt.Text + "', '" + add_txt.Text + "', " +
+                    "'" + Convert.ToDateTime(from_date_picker.Value) + "', '" + Convert.ToDateTime(to_date_picker.Value) + "'," +
+                    " '" + pckg_cmb.Text + "', '" + help_cmb.SelectedItem + "', "+Convert.ToInt32(price_txt.Text)+") ";
+                OleDbCommand cmd1 = new OleDbCommand(query1, conn);
+                conn.Open();
+                cmd1.ExecuteNonQuery();
+                conn.Close();
+
+                string query2 = "Delete from Trans where [orderID]=" + Delete_order.order_del + " ";
+                OleDbCommand cmd2 = new OleDbCommand(query2, conn);
+                conn.Open();
+                cmd2.ExecuteNonQuery();
+                MessageBox.Show("Your record has been deleted!", "Delete", MessageBoxButtons.OK);
+                
+                conn.Close();
+            }
+
+        }
+    }*/
