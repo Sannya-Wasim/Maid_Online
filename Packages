@@ -1,0 +1,509 @@
+// Packages Form
+/*using System.Windows.Forms;
+
+namespace MASSI_Online
+{
+    public partial class Packages : Form
+    {
+        public Packages()
+        {
+            InitializeComponent();
+        }
+
+        private void Form2_Load(object sender, EventArgs e)
+        {
+            this.BackColor = Color.White;
+        }
+
+        private void label2_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button1_Click(object sender, EventArgs e)      //regular cleaning
+        {
+            Reg_Clean r = new Reg_Clean();
+            r.Show();
+            this.Hide();
+        }
+
+        private void button2_Click(object sender, EventArgs e)      //deep cleaning
+        {
+            Deep_clean d = new Deep_clean();
+            d.Show();
+            this.Hide();
+        }
+
+        private void button3_Click(object sender, EventArgs e)      //cleaning
+        {
+            Cooking c = new Cooking();
+            c.Show();
+            this.Hide();
+        }
+
+        private void button4_Click(object sender, EventArgs e)      //babysitting
+        {
+            Babysit b = new Babysit();
+            b.Show();
+            this.Hide();
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            Iron i = new Iron();
+            i.Show();
+            this.Hide();
+        }
+    }
+}*/
+
+
+// Regular Cleaning Registeration Form
+// After choosing the package of regular cleaning,the customer registers for this package which requires selecting the number of days you want the helper and the type of helper.
+/*using System.Windows.Forms;
+using System.Data.OleDb;
+
+namespace MASSI_Online
+{
+    public partial class Reg_Clean : Form
+    {
+        public Reg_Clean()
+        {
+            InitializeComponent();
+        }
+
+        Random r = new Random();
+        public static int order = CRUD.order_id;
+        //public static string name = Login.set_value_username;
+        //public static int date = 0;
+        //date = Convert.ToDateTime(dateTimePicker1.Text);
+        //public static string helper = Convert.ToString(helper_box.Text);
+
+        public void Connect()
+        {
+            OleDbConnection conn = new OleDbConnection(@"Provider=Microsoft.Ace.Oledb.12.0; Data Source=C:\Users\Wasim Yasin\Documents\Database5.accdb");
+            OleDbDataAdapter adap = new OleDbDataAdapter("SELECT * From Login ", conn);
+            DataTable d1 = new DataTable();
+            //MessageBox.Show("Connection has established");
+            adap.Fill(d1);
+        }
+        private void label2_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            // calculate the total price
+            //int to_date=to_date_picker.Value.
+            int days = (to_date_picker.Value - from_date_picker.Value).Days;
+            if (to_date_picker.Value.Date== from_date_picker.Value.Date)
+            {
+                days = 1;
+            }
+            int price = days * 150;
+            
+            OleDbConnection conn = new OleDbConnection(@"Provider=Microsoft.ACE.Oledb.12.0; Data Source=C:\Users\Wasim Yasin\Documents\Database5.accdb");
+            conn.Open();
+            OleDbCommand cmd = new OleDbCommand("Insert into Trans([orderID],[Cname],[From_date], [To_date], [Package], [Helper], [Price]) " +
+                "values ('" + CRUD.order_id + "', '" + Login.set_value_username + "','" + Convert.ToDateTime(from_date_picker.Text) + "','" + Convert.ToDateTime(to_date_picker.Text) + "',  " +
+                " 'Regular Cleaning', '" + helper_box.SelectedItem.ToString() + "', "+price+")", conn);
+            cmd.ExecuteNonQuery();
+            conn.Close();
+
+            DialogResult msg =MessageBox.Show("Confirm Registration?","Confirm", MessageBoxButtons.YesNo);
+            if (msg==DialogResult.Yes)
+            {
+                Disp_Reg d1 = new Disp_Reg();
+                d1.Show();
+                this.Hide();
+            }
+            else
+            {
+                Packages form = new Packages();
+                form.Show();
+                this.Hide();
+            }
+            
+        }
+
+        private void dateTimePicker1_ValueChanged(object sender, EventArgs e)       // for selecting date
+        {
+            
+        }
+
+        private void label4_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label3_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void comboBox2_SelectedIndexChanged(object sender, EventArgs e) // for selecting helper
+        {
+
+        }
+
+        private void pictureBox1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void groupBox1_Enter(object sender, EventArgs e)
+        {
+
+        }
+
+        
+        /*public void Labels()
+        {
+            // label for displaying order id
+            //Label lorder = new Label();
+            lorder.Location = new Point(160, 84);
+            lorder.Size = new Size(59, 22);
+            
+            lorder.Text = Convert.ToString(order);
+            this.Controls.Add(lorder);
+
+            // label for displaying username
+            //Label lname = new Label();
+            lname.Location = new Point(506, 84);
+            lname.Size = new Size(35, 13);
+            string name = Login.set_value_username;
+            lname.Text = name;
+            this.Controls.Add(lname);
+
+
+        }*/
+        
+
+        private void Reg_Clean_Load(object sender, EventArgs e)
+        {
+            // for displaying customer's name
+            OleDbConnection conn = new OleDbConnection(@"Provider=Microsoft.Ace.Oledb.12.0; Data Source=C:\Users\Wasim Yasin\Documents\Database5.accdb");
+            OleDbDataAdapter adap = new OleDbDataAdapter("SELECT * From Login where [Username]='"+Login.set_value_username+"' ", conn);
+            DataSet d1 = new DataSet();
+            //MessageBox.Show("Connection has established");
+            adap.Fill(d1);
+            lname.Text = d1.Tables[0].Rows[0]["Cname"].ToString();
+
+            // for displaying order ID
+            lorder.Text = Convert.ToString(order);
+
+        }
+
+        private void label7_Click(object sender, EventArgs e)
+        {
+            //label7.Text = Login.set_value_username;
+        }
+
+        private void label8_Click(object sender, EventArgs e)
+        {
+            //label8.Text = Login.set_value_username;
+            //label8.Text = "wbfcjkavcua";
+        }
+    }
+}*/
+
+// Deep Cleaning Form
+/*using System.Windows.Forms;
+using System.Data.OleDb;
+
+namespace MASSI_Online
+{
+    public partial class Deep_clean : Form
+    {
+        public Deep_clean()
+        {
+            InitializeComponent();
+        }
+
+        Random r = new Random();
+        public static int order_deep = CRUD.order_id;
+
+        private void Deep_clean_Load(object sender, EventArgs e)
+        {
+            //lorder.Text = Convert.ToString(order_deep);
+            //lname.Text = Login.set_value_username;
+
+            // for displaying customer's name
+            OleDbConnection conn = new OleDbConnection(@"Provider=Microsoft.Ace.Oledb.12.0; Data Source=C:\Users\Wasim Yasin\Documents\Database5.accdb");
+            OleDbDataAdapter adap = new OleDbDataAdapter("SELECT * From Login where [Username]='" + Login.set_value_username + "' ", conn);
+            DataSet d1 = new DataSet();
+            //MessageBox.Show("Connection has established");
+            adap.Fill(d1);
+            lname.Text = d1.Tables[0].Rows[0]["Cname"].ToString();
+
+            // for displaying order ID
+            lorder.Text = Convert.ToString(order_deep);
+        }
+
+        
+        private void button1_Click(object sender, EventArgs e)
+        {
+            // calculate the total price
+            //int to_date=to_date_picker.Value.
+            int days = (to_date_picker.Value - from_date_picker.Value).Days;
+            if (to_date_picker.Value.Date == from_date_picker.Value.Date)
+            {
+                days = 1;
+            }
+            int price = days * 150;
+
+            OleDbConnection conn = new OleDbConnection(@"Provider=Microsoft.ACE.Oledb.12.0; Data Source=C:\Users\Wasim Yasin\Documents\Database5.accdb");
+            conn.Open();
+            string query = "Insert into Trans([orderID],[Cname],[From_date], [To_date], [Package], [Helper], [Price]) " +
+                "values ('" + CRUD.order_id + "', '" + Login.set_value_username + "','" + Convert.ToDateTime(from_date_picker.Text) + "', '" + Convert.ToDateTime(to_date_picker.Text) + "', " +
+                " 'Deep Cleaning', '" + helper_box.SelectedItem.ToString() + "', "+price+")";
+            OleDbCommand cmd = new OleDbCommand(query, conn);
+            cmd.ExecuteNonQuery();
+            conn.Close();
+
+            DialogResult msg = MessageBox.Show("Confirm Registration?", "Confirm", MessageBoxButtons.YesNo);
+            if (msg == DialogResult.Yes)
+            {
+                Disp_Reg d2 = new Disp_Reg();
+                d2.Show();
+                this.Hide();
+            }
+            else
+            {
+                Packages form = new Packages();
+                form.Show();
+                this.Hide();
+            }
+        }
+    }
+}*/
+
+//Cooking Form
+/*using System.Windows.Forms;
+using System.Data.OleDb;
+
+namespace MASSI_Online
+{
+    public partial class Cooking : Form
+    {
+        public Cooking()
+        {
+            InitializeComponent();
+        }
+
+        Random r = new Random();
+        public static int order_cook = CRUD.order_id;
+
+        private void Cooking_Load(object sender, EventArgs e)
+        {
+            //lorder.Text = Convert.ToString(order_cook);
+            //lname.Text = Login.set_value_username;
+
+            // for displaying customer's name
+            OleDbConnection conn = new OleDbConnection(@"Provider=Microsoft.Ace.Oledb.12.0; Data Source=C:\Users\Wasim Yasin\Documents\Database5.accdb");
+            OleDbDataAdapter adap = new OleDbDataAdapter("SELECT * From Login where [Username]='" + Login.set_value_username + "' ", conn);
+            DataSet d1 = new DataSet();
+            //MessageBox.Show("Connection has established");
+            adap.Fill(d1);
+            lname.Text = d1.Tables[0].Rows[0]["Cname"].ToString();
+
+            // for displaying order ID
+            lorder.Text = Convert.ToString(order_cook);
+        }
+
+        
+
+        private void button1_Click_1(object sender, EventArgs e)
+        {
+            // calculate the total price
+            //int to_date=to_date_picker.Value.
+            int days = (to_date_picker.Value - from_date_picker.Value).Days;
+            if (to_date_picker.Value.Date == from_date_picker.Value.Date)
+            {
+                days = 1;
+            }
+            int price = days * 150;
+
+            OleDbConnection conn = new OleDbConnection(@"Provider=Microsoft.ACE.Oledb.12.0; Data Source=C:\Users\Wasim Yasin\Documents\Database5.accdb");
+            conn.Open();
+            string query = "Insert into Trans([orderID],[Cname],[From_date], [To_date], [Package], [Helper], [Price]) " +
+                "values ('" + CRUD.order_id + "', '" + Login.set_value_username + "','" + Convert.ToDateTime(from_date_picker.Text) + "', '" + Convert.ToDateTime(to_date_picker.Text) + "',  " +
+                " 'Cooking', '" + helper_box.SelectedItem.ToString() + "', "+price+")";
+            OleDbCommand cmd = new OleDbCommand(query, conn);
+            cmd.ExecuteNonQuery();
+            conn.Close();
+
+            DialogResult msg = MessageBox.Show("Confirm Registration?", "Confirm", MessageBoxButtons.YesNo);
+            if (msg == DialogResult.Yes)
+            {
+                Disp_Reg d3 = new Disp_Reg();
+                d3.Show();
+                this.Hide();
+            }
+            else
+            {
+                Packages form = new Packages();
+                form.Show();
+                this.Hide();
+            }
+        }
+    }
+}*/
+
+// Babysitting Form
+/*using System.Windows.Forms;
+using System.Data.OleDb;
+
+namespace MASSI_Online
+{
+    public partial class Babysit : Form
+    {
+        public Babysit()
+        {
+            InitializeComponent();
+        }
+
+        Random r = new Random();
+        public static int order_baby = CRUD.order_id;
+
+        private void groupBox1_Enter(object sender, EventArgs e)
+        {
+
+        }
+
+
+
+        private void Babysit_Load(object sender, EventArgs e)
+        {
+            //lorder.Text = Convert.ToString(order_deep);
+            //lname.Text = Login.set_value_username;
+
+            // for displaying customer's name
+            OleDbConnection conn = new OleDbConnection(@"Provider=Microsoft.Ace.Oledb.12.0; Data Source=C:\Users\Wasim Yasin\Documents\Database5.accdb");
+            OleDbDataAdapter adap = new OleDbDataAdapter("SELECT * From Login where [Username]='" + Login.set_value_username + "' ", conn);
+            DataSet d1 = new DataSet();
+            //MessageBox.Show("Connection has established");
+            adap.Fill(d1);
+            lname.Text = d1.Tables[0].Rows[0]["Cname"].ToString();
+
+            // for displaying order ID
+            lorder.Text = Convert.ToString(order_baby);
+        }
+
+        
+
+        private void button1_Click(object sender, EventArgs e)      //register button
+        {
+            // calculate the total price
+            //int to_date=to_date_picker.Value.
+            int days = (to_date_picker.Value - from_date_picker.Value).Days;
+            if (to_date_picker.Value.Date == from_date_picker.Value.Date)
+            {
+                days = 1;
+            }
+            int price = days * 150;
+
+            OleDbConnection conn = new OleDbConnection(@"Provider=Microsoft.ACE.Oledb.12.0; Data Source=C:\Users\Wasim Yasin\Documents\Database5.accdb");
+            conn.Open();
+            string query = "Insert into Trans([orderID],[Cname],[From_date], [To_date], [Package], [Helper], [Price]) " +
+                "values ('" + CRUD.order_id + "', '" + Login.set_value_username + "','" + Convert.ToDateTime(from_date_picker.Text) + "', '" + Convert.ToDateTime(to_date_picker.Text) + "',  " +
+                " 'Babysitting', '" + helper_box.SelectedItem.ToString() + "', "+price+")";
+            OleDbCommand cmd = new OleDbCommand(query, conn);
+            cmd.ExecuteNonQuery();
+            conn.Close();
+
+            DialogResult msg = MessageBox.Show("Confirm Registration?", "Confirm", MessageBoxButtons.YesNo);
+            if (msg == DialogResult.Yes)
+            {
+                Disp_Reg d4 = new Disp_Reg();
+                d4.Show();
+                this.Hide();
+            }
+            else
+            {
+                Packages form = new Packages();
+                form.Show();
+                this.Hide();
+            }
+        }
+    }
+}*/
+
+// Ironing Form
+/*using System.Windows.Forms;
+using System.Data.OleDb;
+
+namespace MASSI_Online
+{
+    public partial class Iron : Form
+    {
+        public Iron()
+        {
+            InitializeComponent();
+        }
+        Random r = new Random();
+        public static int order_iron = CRUD.order_id;
+        private void button1_Click_1(object sender, EventArgs e)        //register button
+        {
+            
+        }
+
+        private void Iron_Load(object sender, EventArgs e)
+        {
+            //lorder.Text = Convert.ToString(order_deep);
+            //lname.Text = Login.set_value_username;
+
+            // for displaying customer's name
+            OleDbConnection conn = new OleDbConnection(@"Provider=Microsoft.Ace.Oledb.12.0; Data Source=C:\Users\Wasim Yasin\Documents\Database5.accdb");
+            OleDbDataAdapter adap = new OleDbDataAdapter("SELECT * From Login where [Username]='" + Login.set_value_username + "' ", conn);
+            DataSet d1 = new DataSet();
+            //MessageBox.Show("Connection has established");
+            adap.Fill(d1);
+            lname.Text = d1.Tables[0].Rows[0]["Cname"].ToString();
+
+            // for displaying order ID
+            lorder.Text = Convert.ToString(order_iron);
+        }
+
+        private void button1_Click(object sender, EventArgs e)      //register btn
+        {
+            // calculate the total price
+            //int to_date=to_date_picker.Value.
+            int days = (to_date_picker.Value - from_date_picker.Value).Days;
+            if (to_date_picker.Value.Date == from_date_picker.Value.Date)
+            {
+                days = 1;
+            }
+            int price = days * 150;
+
+            OleDbConnection conn = new OleDbConnection(@"Provider=Microsoft.ACE.Oledb.12.0; Data Source=C:\Users\Wasim Yasin\Documents\Database5.accdb");
+            conn.Open();
+            string query = "Insert into Trans([orderID],[Cname],[From_date], [To_date], [Package], [Helper], [Price]) " +
+                "values ('" + CRUD.order_id + "', '" + Login.set_value_username + "','" + Convert.ToDateTime(from_date_picker.Text) + "', '" + Convert.ToDateTime(from_date_picker.Text) + "',  " +
+                " 'Ironing', '" + helper_box.SelectedItem.ToString() + "', "+price+")";
+            OleDbCommand cmd = new OleDbCommand(query, conn);
+            cmd.ExecuteNonQuery();
+            conn.Close();
+
+            DialogResult msg = MessageBox.Show("Confirm Registration?", "Confirm", MessageBoxButtons.YesNo);
+            if (msg == DialogResult.Yes)
+            {
+                Disp_Reg d5 = new Disp_Reg();
+                d5.Show();
+                this.Hide();
+            }
+            else
+            {
+                Packages form = new Packages();
+                form.Show();
+                this.Hide();
+            }
+        }
+    }
+}*/
