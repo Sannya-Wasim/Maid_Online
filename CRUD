@@ -1,0 +1,52 @@
+/*using System.Windows.Forms;
+
+namespace MASSI_Online
+{
+    
+
+    public partial class CRUD : Form
+    {
+        public CRUD()
+        {
+            InitializeComponent();
+            
+        }
+        public static int order_id=0;
+        Random r = new Random();
+        
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            order_id = r.Next(10, 60);
+            Packages form = new Packages();
+            form.Show();
+            this.Hide();
+        }
+
+        private void button2_Click(object sender, EventArgs e)  // update button
+        {
+            Update_order u1 = new Update_order();
+            u1.Show();
+            this.Hide();
+        }
+
+        private void CRUD_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button3_Click(object sender, EventArgs e)      //DELETE BUTTON
+        {
+            Delete_order d1 = new Delete_order();
+            d1.Show();
+            this.Hide();
+        }
+
+        private void button4_Click(object sender, EventArgs e)      //display button
+        {
+            Display_order dp = new Display_order();
+            dp.Show();
+            this.Hide();
+        }
+    }
+}*/
