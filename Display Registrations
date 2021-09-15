@@ -1,0 +1,117 @@
+/*using System.Windows.Forms;
+using System.Data.OleDb;
+
+namespace MASSI_Online
+{
+    public partial class Disp_Reg : Form
+    {
+        public Disp_Reg()
+        {
+            InitializeComponent();
+        }
+
+        string order = (Reg_Clean.order).ToString();
+
+        private void textBox1_TextChanged(object sender, EventArgs e)       // textbox for displaying name
+        {
+           
+        }
+
+        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            
+        }
+
+        private void dateTimePicker1_ValueChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void Disp_Reg_Load(object sender, EventArgs e)
+        {
+            OleDbConnection conn = new OleDbConnection(@"Provider=Microsoft.Ace.Oledb.12.0; Data Source=C:\Users\Wasim Yasin\Documents\Database5.accdb");
+            //OleDbDataAdapter adap = new OleDbDataAdapter("SELECT [Cname], [From_date], [Package], [Helper] from Trans where [orderID]=" + Reg_Clean.order+" ", conn);
+            OleDbDataAdapter adap1 = new OleDbDataAdapter("SELECT [Cname],[Address], [From_date], [To_date], [Package], [Helper], [Price] from Trans where [orderID]=" + CRUD.order_id + " ", conn);
+            //for entering a numeric (int) value in a query statement, dont use single quotes ('"++"'), instead use only double quotes ("++")
+            DataSet d1 = new DataSet("Trans");
+            conn.Open();
+            adap1.Fill(d1);
+            if (d1.Tables.Count > 0)
+            {
+                name_txt.Text = d1.Tables[0].Rows[0]["Cname"].ToString();
+                add_txt.Text = d1.Tables[0].Rows[0]["Address"].ToString();
+                pckg_cmb.Text = d1.Tables[0].Rows[0]["Package"].ToString();
+                from_date_picker.Value = Convert.ToDateTime(d1.Tables[0].Rows[0]["From_date"]);
+                to_date_picker.Value = Convert.ToDateTime(d1.Tables[0].Rows[0]["To_date"]);
+                help_cmb.Text = d1.Tables[0].Rows[0]["Helper"].ToString();
+                price_txt.Text = d1.Tables[0].Rows[0]["Price"].ToString();
+                conn.Close();
+            }
+
+
+            //System.Data.OleDb.OleDbException: 'No value given for one or more required parameters.' => occurs when the name of the column
+            // provided is incorrect(does not match the onein the database)
+        }
+
+        private void exit_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
+        private void button1_Click(object sender, EventArgs e)      //update button
+        {
+            try
+            {
+                OleDbConnection conn = new OleDbConnection(@"Provider=Microsoft.Ace.Oledb.12.0; Data Source=C:\Users\Wasim Yasin\Documents\Database5.accdb");
+                string query = "Update Trans set [Cname]='" + name_txt.Text + "', [Address]='" + add_txt.Text + "', [Package]='" + pckg_cmb.Text + "', " +
+                    "[From_date]='" + Convert.ToDateTime(from_date_picker.Text) + "', [To_date]='" + Convert.ToDateTime(to_date_picker.Text) + "', " +
+                    "[Helper]='" + help_cmb.SelectedItem + "' where [orderID]=" + CRUD.order_id + " ";
+                OleDbCommand cmd = new OleDbCommand(query, conn);
+                conn.Open();
+                cmd.ExecuteNonQuery();
+                conn.Close();
+                MessageBox.Show("Your record has been updated!", "Update");
+
+            }
+            catch
+            {
+                MessageBox.Show("Incorrect data entered or fields missing!", "Error",MessageBoxButtons.OKCancel);
+            }
+        }
+
+        private void button2_Click(object sender, EventArgs e)      //delete button
+        {
+
+            OleDbConnection conn = new OleDbConnection(@"Provider=Microsoft.Ace.Oledb.12.0; Data Source=C:\Users\Wasim Yasin\Documents\Database5.accdb");
+            string query1 = "Insert into Removed ([orderID], [Cname], [Address], [From_date], [To_date], [Package], [Helper]) " +
+                "values (" + CRUD.order_id + ", '" + name_txt.Text + "', '" + add_txt.Text + "', " +
+                "'" + Convert.ToDateTime(from_date_picker.Value) + "', '" + Convert.ToDateTime(to_date_picker.Value) + "'," +
+                " '" + pckg_cmb.Text + "', '" + help_cmb.SelectedItem + "') ";
+            OleDbCommand cmd1 = new OleDbCommand(query1, conn);
+            conn.Open();
+            cmd1.ExecuteNonQuery();
+            conn.Close();
+
+            string query2 = "Delete from Trans where [orderID]=" + CRUD.order_id + " ";
+            OleDbCommand cmd2 = new OleDbCommand(query2, conn);
+            conn.Open();
+            cmd2.ExecuteNonQuery();
+            MessageBox.Show("Your record has been deleted!", "Delete", MessageBoxButtons.OK);
+
+            conn.Close();
+        }
+
+        private void group_box1_Enter(object sender, EventArgs e)
+        {
+
+        }
+
+        private void textBox1_TextChanged_1(object sender, EventArgs e)
+        {
+
+        }
+    }
+}
+*/
+
+//This variables of this form were used for all 5 packages
